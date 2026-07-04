@@ -25,24 +25,25 @@ public class EmployeeDAO implements DAO<Employee> {
             stmt.setInt(1, id);
 
             try(ResultSet rs = stmt.executeQuery()){
-                rs.next();
 
                 // check if the result set is not null else return and optional empty
-                if(!rs.wasNull()){
+                if(rs.next()){
 
-                    Employee neweEmployee = new Employee();
+                    Employee newEmployee = new Employee();
 
-                    neweEmployee.setEmployee_id(rs.getInt("employee_id"));
-                    neweEmployee.setFirst_name(rs.getString("first_name"));
-                    neweEmployee.setLast_name(rs.getString("last_name"));
-                    neweEmployee.setEmail(rs.getString("email"));
-                    neweEmployee.setHire_date(rs.getDate("hire_date").toLocalDate());
-                    neweEmployee.setPhone(rs.getString("phone"));
-                    neweEmployee.setSalary(rs.getLong("salary"));
-                    neweEmployee.setStatus(rs.getString("status"));
-                    neweEmployee.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                    newEmployee.setEmployee_id(rs.getInt("employee_id"));
+                    newEmployee.setFirst_name(rs.getString("first_name"));
+                    newEmployee.setLast_name(rs.getString("last_name"));
+                    newEmployee.setEmail(rs.getString("email"));
+                    newEmployee.setHire_date(rs.getDate("hire_date").toLocalDate());
+                    newEmployee.setPhone(rs.getString("phone"));
+                    newEmployee.setSalary(rs.getLong("salary"));
+                    newEmployee.setStatus(rs.getString("status"));
+                    newEmployee.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
 
-                    return Optional.of(neweEmployee);
+                    return Optional.of(newEmployee);
+                }else {
+                    return Optional.empty();
                 }
             }
 

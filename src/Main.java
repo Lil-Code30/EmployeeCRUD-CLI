@@ -1,11 +1,14 @@
 import dao.EmployeeDAO;
 import db.DatabaseConnection;
 import models.Employee;
+import utils.EmployeePrinter;
 import utils.MenuUI;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -68,14 +71,30 @@ public class Main {
                             System.out.println("Employee created successfully");
                             break;
                         case 2:
+                            System.out.println("Not yet implemented");
                             break;
                         case 3:
+                            System.out.println("Not yet implemented");
                             break;
                         case 4:
+                            System.out.println("Enter the Employee ID to fetch: ");
+                            int employee_id = scanner.nextInt();
+
+                            Optional<Employee> fetchedEmployee = employeeDAO.get(employee_id);
+
+                            if(fetchedEmployee.isPresent()){
+                                EmployeePrinter.EmployeeCard(fetchedEmployee.get());
+                            }else{
+                                System.out.println("Employee not found");
+                            }
+
                             break;
                         case 5:
-                            break;
+                            System.out.println("========== List of all employees ========");
+                            List<Employee> employees = employeeDAO.getAll();
 
+                            EmployeePrinter.EmployeesTable(employees);
+                            break;
                     }
                     break;
                 case 2:
