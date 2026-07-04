@@ -5,6 +5,10 @@ public class Title {
     private String title_name;
     private String description;
 
+    public Title(int title_id, String title_name) {
+        this.title_id = title_id;
+        this.title_name = title_name;
+    }
 
     // getters + setters
 

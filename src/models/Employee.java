@@ -18,6 +18,10 @@ public class Employee {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
 
+    public Employee() {}
+
+    // getters + setters
+
     public int  getEmployee_id() {
         return employee_id;
     }

@@ -5,6 +5,11 @@ public class Department {
     private String department_name;
     private String location;
 
+    public Department(int department_id, String department_name, String location) {
+        this.department_id = department_id;
+        this.department_name = department_name;
+        this.location = location;
+    }
 
     // setters + getters
     public int getDepartment_id() {
