@@ -17,9 +17,11 @@ public class DatabaseConnection {
         config.setPassword("azerty237");
 
         // pool settings
+        config.setDriverClassName("org.postgresql.Driver");
+
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(2);
-        config.setMaxLifetime(20000);
+        config.setMaxLifetime(1800000);
         config.setIdleTimeout(30000);
 
         datasource = new HikariDataSource(config);
