@@ -74,7 +74,13 @@ public class Main {
                             System.out.println("Not yet implemented");
                             break;
                         case 3:
-                            System.out.println("Not yet implemented");
+                            System.out.println("Enter employee ID to be deleted: ");
+                            int employeeID = scanner.nextInt();
+                            if(employeeDAO.delete(employeeID)) {
+                                System.out.println("Employee deleted successfully");
+                            }else{
+                                System.out.println("Employee not deleted successfully, Please try again");
+                            }
                             break;
                         case 4:
                             System.out.println("Enter the Employee ID to fetch: ");
@@ -105,6 +111,27 @@ public class Main {
                             }else{
                                 System.out.println("No employee exists with that name, please try again");
                             }
+                            break;
+                        case 7:
+                            System.out.println("Not yet implemented");
+                            break;
+                        case 8:
+                            System.out.println("Enter the salary value for the filter: ");
+                            long salary_value = scanner.nextLong();
+
+                            List<Employee> all =  employeeDAO.filterBySalary(salary_value);
+
+                            if(all.isEmpty()){
+                                System.out.println("No employee found with that salary value");
+                            }else{
+                                EmployeePrinter.EmployeesTable(all);
+                            }
+                            break;
+                        case 9:
+                            System.out.println("The Sorted List");
+                            List<Employee> sortedEmployees = employeeDAO.sortByHireDate();
+
+                            EmployeePrinter.EmployeesTable(sortedEmployees);
                             break;
                     }
                     break;

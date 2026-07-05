@@ -112,8 +112,22 @@ public class EmployeeDAO implements DAO<Employee> {
     }
 
     @Override
-    public void delete(Employee employee) {
+    public boolean delete(int  id) {
+        String sql = "DELETE FROM employees WHERE employee_id = ?";
 
+        try(PreparedStatement st = conn.prepareStatement(sql)){
+            st.setInt(1, id);
+
+            st.executeUpdate();
+
+            if(st.executeUpdate() > 0){
+                return true;
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return false;
     }
 
     public Optional<List<Employee>> getByName(String name) {
@@ -157,12 +171,109 @@ public class EmployeeDAO implements DAO<Employee> {
     }
 
     public  Optional<Employee> getByEmail(String email) {
+        String sql = "SELECT * FROM employees WHERE email = ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, email);
+
+            try(ResultSet rs = stmt.executeQuery()){
+
+                // check if the result set is not null else return and optional empty
+                if(rs.next()){
+
+                    Employee newEmployee = new Employee();
+
+                    newEmployee.setEmployee_id(rs.getInt("employee_id"));
+                    newEmployee.setFirst_name(rs.getString("first_name"));
+                    newEmployee.setLast_name(rs.getString("last_name"));
+                    newEmployee.setEmail(rs.getString("email"));
+                    newEmployee.setHire_date(rs.getDate("hire_date").toLocalDate());
+                    newEmployee.setPhone(rs.getString("phone"));
+                    newEmployee.setSalary(rs.getLong("salary"));
+                    newEmployee.setStatus(rs.getString("status"));
+                    newEmployee.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+
+                    return Optional.of(newEmployee);
+                }else {
+                    return Optional.empty();
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
         return Optional.empty();
     }
 
     public void filterByDepartment(Employee employee) {
     }
 
-    public void filterByHireDate(Employee employee) {
+    public List<Employee> sortByHireDate() {
+
+        List<Employee> employees = new ArrayList<>();
+        String sql = "SELECT * FROM employees ORDER BY hire_date";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    Employee e = new Employee();
+
+                    e.setEmployee_id(rs.getInt("employee_id"));
+                    e.setFirst_name(rs.getString("first_name"));
+                    e.setLast_name(rs.getString("last_name"));
+                    e.setEmail(rs.getString("email"));
+                    e.setHire_date(rs.getDate("hire_date").toLocalDate());
+                    e.setPhone(rs.getString("phone"));
+                    e.setSalary(rs.getLong("salary"));
+                    e.setStatus(rs.getString("status"));
+                    e.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                    e.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+
+                    employees.add(e);
+
+                }
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return employees;
+    }
+
+    public List<Employee> filterBySalary(long amount) {
+
+        List<Employee> employees = new ArrayList<>();
+        String sql = "SELECT * FROM employees Where salary >= ? ORDER BY salary DESC";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setLong(1, amount);
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    Employee e = new Employee();
+
+                    e.setEmployee_id(rs.getInt("employee_id"));
+                    e.setFirst_name(rs.getString("first_name"));
+                    e.setLast_name(rs.getString("last_name"));
+                    e.setEmail(rs.getString("email"));
+                    e.setHire_date(rs.getDate("hire_date").toLocalDate());
+                    e.setPhone(rs.getString("phone"));
+                    e.setSalary(rs.getLong("salary"));
+                    e.setStatus(rs.getString("status"));
+                    e.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                    e.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+
+                    employees.add(e);
+
+                }
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return employees;
     }
 }

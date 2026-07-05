@@ -12,3 +12,9 @@ VALUES
 ('Michael', 'Johnson', 'michael.johnson@email.com', '438-999-5566', '2021-09-14', 80000);
 
 SELECT * FROM employees WHERE first_name LIKE  '%loko%' OR last_name LIKE '%loko%';
+
+SELECT * FROM employees ORDER BY salary;
+
+SELECT * FROM employees ORDER BY hire_date;
+
+SELECT * FROM employees WHERE salary >= 60000;
