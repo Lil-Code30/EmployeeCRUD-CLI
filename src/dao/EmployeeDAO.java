@@ -108,7 +108,7 @@ public class EmployeeDAO implements DAO<Employee> {
 
     @Override
     public void update(Employee employee) {
-
+            // not yet implemented
     }
 
     @Override
@@ -116,7 +116,43 @@ public class EmployeeDAO implements DAO<Employee> {
 
     }
 
-    public Optional<Employee> getByName(String name) {
+    public Optional<List<Employee>> getByName(String name) {
+        String sql = "SELECT * FROM employees WHERE first_name LIKE ? OR last_name LIKE ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, "%" + name + "%");
+            stmt.setString(2, "%" + name + "%");
+
+            List<Employee> fetchEmployees = new ArrayList<>();
+
+            try(ResultSet rs = stmt.executeQuery()){
+
+                // check if the result set is not null else return and optional empty
+                while(rs.next()){
+
+                    Employee newEmployee = new Employee();
+
+                    newEmployee.setEmployee_id(rs.getInt("employee_id"));
+                    newEmployee.setFirst_name(rs.getString("first_name"));
+                    newEmployee.setLast_name(rs.getString("last_name"));
+                    newEmployee.setEmail(rs.getString("email"));
+                    newEmployee.setHire_date(rs.getDate("hire_date").toLocalDate());
+                    newEmployee.setPhone(rs.getString("phone"));
+                    newEmployee.setSalary(rs.getLong("salary"));
+                    newEmployee.setStatus(rs.getString("status"));
+                    newEmployee.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+
+                    fetchEmployees.add(newEmployee);
+                }
+
+                return Optional.of(fetchEmployees);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
         return Optional.empty();
     }
 

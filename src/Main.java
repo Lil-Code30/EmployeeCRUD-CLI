@@ -87,13 +87,24 @@ public class Main {
                             }else{
                                 System.out.println("Employee not found");
                             }
-
                             break;
                         case 5:
                             System.out.println("========== List of all employees ========");
                             List<Employee> employees = employeeDAO.getAll();
 
                             EmployeePrinter.EmployeesTable(employees);
+                            break;
+                        case 6:
+                            System.out.println("Enter the Employee Name to fetch: ");
+                            String employee_name = scanner.next();
+
+                            Optional<List<Employee>> fetchEmployees = employeeDAO.getByName(employee_name);
+
+                            if(fetchEmployees.isPresent()){
+                                EmployeePrinter.EmployeesTable(fetchEmployees.get());
+                            }else{
+                                System.out.println("No employee exists with that name, please try again");
+                            }
                             break;
                     }
                     break;
