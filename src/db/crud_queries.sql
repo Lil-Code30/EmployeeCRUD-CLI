@@ -41,3 +41,11 @@ VALUES
 SELECT * FROM departments WHERE department_name LIKE '%Human Resources%';
 
 DELETE INTO departments WHERE department_id = 2;
+
+SELECT e.first_name, e.last_name, e.email, e.salary, d.* FROM employees e
+INNER JOIN departments d
+ON e.department_id = d.department_id;
+
+SELECT e.first_name, e.last_name, e.email, e.salary, d.* FROM employees e
+INNER JOIN departments d
+ON e.department_id = d.department_id WHERE d.department_name = 'Finance';

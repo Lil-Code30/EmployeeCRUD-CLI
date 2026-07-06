@@ -1,6 +1,7 @@
 package dao;
 
 import interfaces.DAO;
+import models.Department;
 import models.Employee;
 
 import java.sql.*;
@@ -207,7 +208,46 @@ public class EmployeeDAO implements DAO<Employee> {
         return Optional.empty();
     }
 
-    public void filterByDepartment(Employee employee) {
+    public Optional<List<Employee>> filterByDepartment(String department_name) {
+        String sql = "SELECT e.*, d.* FROM employees e INNER JOIN departments d ON e.department_id = d.department_id WHERE d.department_name = ?";
+        List<Employee> fetchEmployees = new ArrayList<>();
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setString(1, department_name);
+
+            try(ResultSet rs = ps.executeQuery()){
+
+                while(rs.next()){
+                    Employee newEmployee = new Employee();
+                    Department department = new Department();
+
+                    newEmployee.setEmployee_id(rs.getInt("employee_id"));
+                    newEmployee.setFirst_name(rs.getString("first_name"));
+                    newEmployee.setLast_name(rs.getString("last_name"));
+                    newEmployee.setEmail(rs.getString("email"));
+                    newEmployee.setHire_date(rs.getDate("hire_date").toLocalDate());
+                    newEmployee.setPhone(rs.getString("phone"));
+                    newEmployee.setSalary(rs.getLong("salary"));
+                    newEmployee.setStatus(rs.getString("status"));
+                    newEmployee.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                    newEmployee.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+
+                    department.setDepartment_id(rs.getInt("department_id"));
+                    department.setDepartment_name(rs.getString("department_name"));
+                    department.setLocation(rs.getString("location"));
+
+                    newEmployee.setDepartment(department);
+
+                    fetchEmployees.add(newEmployee);
+                }
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return Optional.of(fetchEmployees);
     }
 
     public List<Employee> sortByHireDate() {

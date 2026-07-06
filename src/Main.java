@@ -115,7 +115,21 @@ public class Main {
                             }
                             break;
                         case 7:
-                            System.out.println("Not yet implemented");
+                            System.out.println("Enter the Department Name for the filter:");
+                            String department_name = scanner.next();
+
+                            Optional<List<Employee>> filteredEmployees = employeeDAO.filterByDepartment(department_name);
+                            if(filteredEmployees.isPresent()){
+                                for(Employee employee : filteredEmployees.get()){
+                                    System.out.println(employee);
+                                    System.out.println(employee.getDepartment());
+                                    System.out.println("======================================================================");
+
+                                }
+                            }else{
+                                System.out.println("No employee exists in that department, please try again");
+                            }
+
                             break;
                         case 8:
                             System.out.println("Enter the salary value for the filter: ");
