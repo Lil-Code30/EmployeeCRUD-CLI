@@ -73,7 +73,7 @@ public class Main {
                             System.out.println("Employee created successfully");
                             break;
                         case 2:
-                            System.out.println("Not yet implemented");
+                            System.out.println("This section not yet implemented");
                             break;
                         case 3:
                             System.out.println("Enter employee ID to be deleted: ");
@@ -175,6 +175,12 @@ public class Main {
                             departmentDAO.insert(newDepartment);
                             System.out.println("Department created successfully");
                             break;
+                        case 2:
+                            System.out.println("This section not yet implemented");
+                            break;
+                        case 3:
+                            System.out.println("This section not yet implemented");
+                            break;
                         case 4:
                             System.out.println("All the departments in the company");
                             List<Department> departments = departmentDAO.getAll();
@@ -188,6 +194,7 @@ public class Main {
                     break;
                 case 3:
                     MenuUI.printPositionMenu();
+                    System.out.println("This section not yet implemented");
                     break;
                 case 0:
                     System.out.println("\nThank you for using Employee Management System!");
