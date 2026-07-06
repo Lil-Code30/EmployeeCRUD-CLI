@@ -1,5 +1,7 @@
+import dao.DepartmentDAO;
 import dao.EmployeeDAO;
 import db.DatabaseConnection;
+import models.Department;
 import models.Employee;
 import utils.EmployeePrinter;
 import utils.MenuUI;
@@ -137,6 +139,38 @@ public class Main {
                     break;
                 case 2:
                     MenuUI.printDepartmentMenu();
+
+                    DepartmentDAO departmentDAO = new DepartmentDAO(connection);
+
+                    System.out.println("Select an option for the Department Management System: ");
+                    int opt = scanner.nextInt();
+
+                    switch (opt) {
+                        case 1:
+
+                            System.out.println("Enter the name of the department: ");
+                            String departmentName = scanner.next();
+
+                            System.out.println("Enter the location of the department: ");
+                            String location = scanner.next();
+
+                            Department newDepartment = new Department();
+                            newDepartment.setDepartment_name(departmentName);
+                            newDepartment.setLocation(location);
+
+                            departmentDAO.insert(newDepartment);
+                            System.out.println("Department created successfully");
+                            break;
+                        case 4:
+                            System.out.println("All the departments in the company");
+                            List<Department> departments = departmentDAO.getAll();
+
+                            for (Department department : departments) {
+                                System.out.println(department);
+                                System.out.println("======================================================================");
+                            }
+                            break;
+                    }
                     break;
                 case 3:
                     MenuUI.printPositionMenu();

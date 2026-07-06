@@ -18,3 +18,26 @@ SELECT * FROM employees ORDER BY salary;
 SELECT * FROM employees ORDER BY hire_date;
 
 SELECT * FROM employees WHERE salary >= 60000;
+
+--- department
+
+SELECT * FROM departments;
+
+INSERT INTO departments (department_name, location)
+VALUES
+('Human Resources', 'New York'),
+('Information Technology', 'San Francisco'),
+('Finance', 'Chicago'),
+('Marketing', 'Los Angeles'),
+('Sales', 'Dallas'),
+('Research and Development', 'Boston'),
+('Customer Support', 'Toronto'),
+('Operations', 'Seattle'),
+('Legal', 'Washington D.C.'),
+('Procurement', 'Miami');
+
+--- CRUD 
+
+SELECT * FROM departments WHERE department_name LIKE '%Human Resources%';
+
+DELETE INTO departments WHERE department_id = 2;
